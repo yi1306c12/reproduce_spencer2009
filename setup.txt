@@ -1,0 +1,45 @@
+; IF4
+
+common path, home_path, single_path, avg_path, ps_path, latadj_path, dv_path, pca_path, bhv_path, $
+             img_path, ers_path, ica_path
+common params, n_ids, n_points, n_chans, period, epoch_range, filt_width, base_range
+common net_params, N_all, N_e, N_ir, N_if, dt, inv_dt, update, t_init, t_pre, t_stim, t_post, t_all
+common wers_params, n_wers_pts, wers_range, wers_base_range, n_scales, scales
+common vars, W, W_noise
+common rand, seed
+
+single_path = '../single/'
+avg_path = '../avg/'
+ps_path = '../img/'
+dv_path = '../dvs/'
+bhv_path = '../bhv/'
+img_path = '../img/'
+ers_path = '../ers/'
+
+; params
+n_ids = 3
+n_chans = 12
+period = 10
+
+; net_params
+dt = 0.001  ; in ms
+inv_dt = long(1000)
+update = inv_dt
+
+N_e  = long(80*10)
+N_ir = long(15*10)
+N_if = long(5*10)
+N_all = N_e + N_ir + N_if
+
+t_init=500*inv_dt  &  t_pre=0*inv_dt  &  t_stim=500*inv_dt  &  t_post=100*inv_dt
+
+t_all = t_init + t_pre + t_stim + t_post
+
+; wers_params
+n_wers_pts = 11
+n_scales = t_stim/inv_dt
+scales = 1000./reverse(dindgen(n_scales)*2)
+wers_range = [0,100]
+
+device, decomposed=0
+loadct, 23
