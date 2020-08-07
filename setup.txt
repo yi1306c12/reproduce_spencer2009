@@ -8,13 +8,7 @@ common wers_params, n_wers_pts, wers_range, wers_base_range, n_scales, scales
 common vars, W, W_noise
 common rand, seed
 
-single_path = '../single/'
-avg_path = '../avg/'
-ps_path = '../img/'
-dv_path = '../dvs/'
-bhv_path = '../bhv/'
-img_path = '../img/'
-ers_path = '../ers/'
+single_path = './'
 
 ; params
 n_ids = 3
