@@ -42,4 +42,4 @@ scales = 1000./reverse(dindgen(n_scales)*2)
 wers_range = [0,100]
 
 device, decomposed=0
-loadct, 23
+;loadct, 23
