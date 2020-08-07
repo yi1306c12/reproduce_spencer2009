@@ -8,7 +8,7 @@ common wers_params, n_wers_pts, wers_range, wers_base_range, n_scales, scales
 common vars, W, W_noise
 common rand, seed
 
-single_path = './'
+single_path = './single/'
 
 ; params
 n_ids = 3
