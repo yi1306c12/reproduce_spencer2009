@@ -1,11 +1,5 @@
-VARNAME=$1
-RATE=$2
-STR=$VARNAME$RATE
+STR=$1
 DIRNAME='./single/'
-LOGNAME=$DIRNAME'log_'$STR'.txt'
+LOGNAME=$DIRNAME$STR'_log.txt'
 
-EXPRESSION='ctx, "'$STR'", '$VARNAME'='$RATE
-echo $EXPRESSION > $LOGNAME
-echo $PATH
-GDL_STARTUP=setup.txt gdl -e $EXPRESSION > $LOGNAME
-#GDL_STARTUP=setup.txt gdl -e 'ctx, "''", con_t='$RATE > ./single/con_t$RATE.log
+GDL_STARTUP=setup.txt gdl -quiet -e "ctx, '$STR', "$STR > $LOGNAME

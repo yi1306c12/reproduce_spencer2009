@@ -74,7 +74,17 @@ init_net, str, gaba=gaba, con_t=con_t, con_p=con_p, con_r=con_r, con_if=con_if, 
 noise_gen, str
 
 openw, spike_fu, single_path + str + '_spk.dat', /get_lun
-openw, Vm_fu, single_path + str + '_Vm.dat', /get_lun
+openw, Vm_fu, single_path + str + '_v.dat', /get_lun
+openw, Isyn_fu, single_path + str + '_I_syn.dat', /get_lun
+openw, g_ampa_fu, single_path + str + '_g_ampa.dat', /get_lun
+openw, g_r_ampa_fu, single_path + str + '_g_r_ampa.dat', /get_lun
+openw, g_d_ampa_fu, single_path + str + '_g_d_ampa.dat', /get_lun
+openw, g_nmda_fu, single_path + str + '_g_nmda.dat', /get_lun
+openw, g_r_nmda_fu, single_path + str + '_g_r_nmda.dat', /get_lun
+openw, g_d_nmda_fu, single_path + str + '_g_d_nmda.dat', /get_lun
+openw, g_gaba_fu, single_path + str + '_g_gaba.dat', /get_lun
+openw, g_r_gaba_fu, single_path + str + '_g_r_gaba.dat', /get_lun
+openw, g_d_gaba_fu, single_path + str + '_g_d_gaba.dat', /get_lun
 openr, noise_fu, single_path + str + '_noise.dat', /get_lun
 
 ;spikes[*,*]=0  &  v[*]=double(-65.)  &  g_ampa[*]=0.  &  g_nmda[*]=0.  &  g_gaba[*]=0.  ; Izh
@@ -101,6 +111,15 @@ for t=long(0),t_all-1 do begin
     noise[*,0] = temp
     writeu, spike_fu, fix(total(spikes[*,*],2) GT 0)
     writeu, Vm_fu, v
+    writeu, g_ampa_fu, g_ampa
+    writeu, g_r_ampa_fu, g_r_ampa
+    writeu, g_d_ampa_fu, g_d_ampa
+    writeu, g_nmda_fu, g_nmda
+    writeu, g_r_nmda_fu, g_r_nmda
+    writeu, g_d_nmda_fu, g_d_nmda
+    writeu, g_gaba_fu, g_gaba
+    writeu, g_r_gaba_fu, g_r_gaba
+    writeu, g_d_gaba_fu, g_d_gaba
   endif
 
   glu_act = (W > 0.)#spikes[*,0] + W_noise*noise[*,t mod update]
@@ -126,7 +145,7 @@ for t=long(0),t_all-1 do begin
   spikes=shift(spikes,0,-1)  &  spikes[*,current_spike]=0.
 end ; t
 
-free_lun, spike_fu, Vm_fu, noise_fu
+free_lun, spike_fu, Vm_fu, noise_fu, g_ampa_fu, g_r_ampa_fu, g_d_ampa_fu, g_nmda_fu, g_r_nmda_fu, g_d_nmda_fu, g_gaba_fu, g_r_gaba_fu, g_d_gaba_fu
 
 if (total(finite(v)) NE N_all) then  print, 'error: v=NaN'
 
