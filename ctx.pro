@@ -109,17 +109,6 @@ for t=long(0),t_all-1 do begin
   if ((t mod update) EQ 0) then begin
     readu, noise_fu, temp
     noise[*,0] = temp
-    writeu, spike_fu, fix(total(spikes[*,*],2) GT 0)
-    writeu, Vm_fu, v
-    writeu, g_ampa_fu, g_ampa
-    writeu, g_r_ampa_fu, g_r_ampa
-    writeu, g_d_ampa_fu, g_d_ampa
-    writeu, g_nmda_fu, g_nmda
-    writeu, g_r_nmda_fu, g_r_nmda
-    writeu, g_d_nmda_fu, g_d_nmda
-    writeu, g_gaba_fu, g_gaba
-    writeu, g_r_gaba_fu, g_r_gaba
-    writeu, g_d_gaba_fu, g_d_gaba
   endif
 
   glu_act = (W > 0.)#spikes[*,0] + W_noise*noise[*,t mod update]
@@ -138,6 +127,21 @@ for t=long(0),t_all-1 do begin
 
   I_syn = -(ampa_scl*g_ampa*v + nmda_scl*g_nmda*v/(1. + exp(-0.062*v)/3.57) + g_gaba*(v+70.))
 
+  if ((t mod update) EQ 0) then begin
+    writeu, spike_fu, fix(total(spikes[*,*],2) GT 0)
+    writeu, Vm_fu, v
+    writeu, Isyn_fu, I_syn
+    writeu, g_ampa_fu, g_ampa
+    writeu, g_r_ampa_fu, g_r_ampa
+    writeu, g_d_ampa_fu, g_d_ampa
+    writeu, g_nmda_fu, g_nmda
+    writeu, g_r_nmda_fu, g_r_nmda
+    writeu, g_d_nmda_fu, g_d_nmda
+    writeu, g_gaba_fu, g_gaba
+    writeu, g_r_gaba_fu, g_r_gaba
+    writeu, g_d_gaba_fu, g_d_gaba
+  endif
+
   v += dt*(inv_tau_mem*(v + 70.) + I_syn)   ; non-Izh
   ;v += dt*(0.04 * v^2 + 5.*v + 140. - u + I_syn)
   ;u += dt*(a * ((b * v) - u))
@@ -145,7 +149,7 @@ for t=long(0),t_all-1 do begin
   spikes=shift(spikes,0,-1)  &  spikes[*,current_spike]=0.
 end ; t
 
-free_lun, spike_fu, Vm_fu, noise_fu, g_ampa_fu, g_r_ampa_fu, g_d_ampa_fu, g_nmda_fu, g_r_nmda_fu, g_d_nmda_fu, g_gaba_fu, g_r_gaba_fu, g_d_gaba_fu
+free_lun, spike_fu, Vm_fu, Isyn_fu, noise_fu, g_ampa_fu, g_r_ampa_fu, g_d_ampa_fu, g_nmda_fu, g_r_nmda_fu, g_d_nmda_fu, g_gaba_fu, g_r_gaba_fu, g_d_gaba_fu
 
 if (total(finite(v)) NE N_all) then  print, 'error: v=NaN'
 
